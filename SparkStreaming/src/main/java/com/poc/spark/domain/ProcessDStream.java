@@ -1,5 +1,6 @@
 package com.poc.spark.domain;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -14,14 +15,20 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.ConsumerStrategies;
 import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import scala.Tuple2;
 
 @Controller
-public class ProcessDStream {
-	
+public class ProcessDStream  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger LOGGER = LogManager.getLogger(ProcessDStream.class);
+	
+	@Autowired
+	private CustomersRDD customersRDD;
 
 	public void startRealProcess(JavaStreamingContext jssc, Collection<String> topics, Map<String, Object> kafkaParams)
 			throws InterruptedException {
@@ -30,20 +37,18 @@ public class ProcessDStream {
 				LocationStrategies.PreferConsistent(),
 				ConsumerStrategies.<String, String>Subscribe(topics, kafkaParams));
 		
-
-
-		JavaDStream<String> lines = stream.map(kafkaRecord -> kafkaRecord.value());
+		//stream.filter( f -> f.topic().equals("customers-topic"));
 		
-		//test
-		lines.foreachRDD(rdd -> rdd.foreach(x ->{
-			 LOGGER.info(x);
-			 System.out.println(x);
-			
-		}));
+		JavaDStream<String> customers = stream.map(kafkaRecord -> kafkaRecord.value()).filter(f-> f.contains("customers"));
 		
-		//
+		//-------------------------------------------------------------------------------
 		
-		JavaDStream<String> words = lines.flatMap(line -> Arrays.asList(line.split(" ")).iterator());
+		customersRDD.startCustomersProccesor(customers);
+		
+		
+		// ------------------------------------------------------------------------------
+		
+		JavaDStream<String> words = customers.flatMap(line -> Arrays.asList(line.split(" ")).iterator());
 
 		JavaPairDStream<String, Integer> wordMap = words.mapToPair(word -> new Tuple2<>(word, 1));
 

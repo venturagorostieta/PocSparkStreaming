@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 //
@@ -34,6 +35,9 @@ public class App {
 	private ProcessDStream processDStream;
 
 	public static void main(String[] args) {
+		
+		Logger.getLogger("org.apache").setLevel(Level.WARN);
+		
 		LOGGER.info("Iniciando  Streaming App.... INFO ");
 		LOGGER.warn("Iniciando  Streaming App.... WARN ");
 		LOGGER.error("Iniciando  Streaming App.... ERROR ");
