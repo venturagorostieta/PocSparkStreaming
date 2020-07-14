@@ -6,8 +6,6 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.poc.driver.spark.constant.DriverConstants;
@@ -21,37 +19,31 @@ public class SparkConfigurationBuilder {
 	@Qualifier("sparkUtils")
 	private SparkDriverUtils sparkDriverUtils;
 	
-	private static ApplicationContext context;
 
 	public SparkConf buildSparkConfiguration() {
 		sparkDriverUtils.readSparkConfig();
 
-		SparkConf sparkConf = new SparkConf().setMaster(sparkDriverUtils.getSparkMaster())
+		return new SparkConf().setMaster(sparkDriverUtils.getSparkMaster())
 				.setAppName(sparkDriverUtils.getSparkAppName() == null ? "name-not-set"
 						: sparkDriverUtils.getSparkAppName())
-				.set(DriverConstants.SPARK_MAX_CORES, sparkDriverUtils.getSparkMaxCores())
-				.set(DriverConstants.SPARK_EXECUTOR_MEMORY, sparkDriverUtils.getSparkExecutorMemory())
-				.set(DriverConstants.SPARK_DEFAULT_PARALELILSM, sparkDriverUtils.getSparDefaultParalelism());
+				.set("spark.default.parallelism", "2")
+				//for prod
+				.set("spark.yarn.maxAppAttempts", "1")
+				.set("spark.yarn.am.attemptFailuresValidityInterval", "2h")
+				.set("spark.streaming.receiver.writeAheadLog.enable", "true")
 		
-		return sparkConf;
+				 			
+				.set(DriverConstants.SPARK_MAX_CORES, sparkDriverUtils.getSparkMaxCores())
+				.set(DriverConstants.SPARK_EXECUTOR_MEMORY, sparkDriverUtils.getSparkExecutorMemory());	
 	}
 
 	public JavaStreamingContext buildJSC(SparkConf sparkConf) {
 
 		Long seconds = Long.valueOf(sparkDriverUtils.getSparkStreamingBatchDurationSeconds());
-
+		
 		return new JavaStreamingContext(buildSparkConfiguration(), Durations.seconds(seconds));
-
 	}
 	
-	public static void main (String args []) {
-		
-		context = new AnnotationConfigApplicationContext(SparkConfigBeansContext.class);
-		SparkConfigurationBuilder helloWorldBean = context.getBean("sparkConfigurationBuilder", SparkConfigurationBuilder.class);
-		helloWorldBean.buildJSC(helloWorldBean.buildSparkConfiguration());
-		
-	}
-
 	public SparkDriverUtils getSparkDriverUtils() {
 		return sparkDriverUtils;
 	}
@@ -59,6 +51,5 @@ public class SparkConfigurationBuilder {
 	public void setSparkDriverUtils(SparkDriverUtils sparkDriverUtils) {
 		this.sparkDriverUtils = sparkDriverUtils;
 	}
-	
 
 }

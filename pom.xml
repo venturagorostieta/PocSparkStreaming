@@ -18,8 +18,8 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring.version>4.3.27.RELEASE</spring.version>
-		<spark.version>2.4.5</spark.version>
-		<!-- <spark.version>2.3.1</spark.version> -->
+ 		<spark.version>2.4.5</spark.version> 
+<!-- 		<spark.version>2.3.1</spark.version> -->
 	</properties>
 
 	<modules>
@@ -30,40 +30,19 @@
 
 	<dependencyManagement>
 
-		<dependencies>
+	<dependencies>
 			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.16</version>
-			</dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+     </dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.7.16</version>
-				<scope>test</scope>
 			</dependency>
 
-			<dependency>
-				<groupId>org.apache.spark</groupId>
-				<artifactId>spark-core_2.11</artifactId>
-				<version>${spark.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<!-- <dependency> -->
-			<!-- <groupId>org.apache.spark</groupId> -->
-			<!-- <artifactId>spark-sql_2.12</artifactId> -->
-			<!-- <version>${spark.version}</version> -->
-			<!-- </dependency> -->
-
-
-			<dependency>
-				<groupId>org.junit.jupiter</groupId>
-				<artifactId>junit-jupiter-engine</artifactId>
-				<version>5.5.2</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
+	<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.30</version>
@@ -73,6 +52,20 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
 				<version>1.7.30</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-core_2.11</artifactId>
+				<version>${spark.version}</version>
+<!-- 				<scope>provided</scope> -->
+			</dependency>
+
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>5.5.2</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -88,34 +81,23 @@
 				<version>${spring.version}</version>
 			</dependency>
 
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-beans</artifactId> -->
-			<!-- <version>${spring.version}</version> -->
-			<!-- </dependency> -->
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-aop</artifactId> -->
-			<!-- <version>${spring.version}</version> -->
-			<!-- </dependency> -->
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-expression</artifactId> -->
-			<!-- <version>${spring.version}</version> -->
-			<!-- </dependency> -->
-
 			<dependency>
 				<groupId>org.apache.spark</groupId>
 				<artifactId>spark-streaming_2.11</artifactId>
 				<version>${spark.version}</version>
-				<scope>provided</scope>
+<!-- 				<scope>provided</scope> -->
 			</dependency>
 			<dependency>
 				<groupId>org.apache.spark</groupId>
 				<artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
 				<version>${spark.version}</version>
+				 <exclusions>
+            
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+        </exclusions>
 			</dependency>
 
 			<dependency>
@@ -129,10 +111,45 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>2.6.7.3</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-client</artifactId>
+				<version>2.2.4</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-mapreduce</artifactId>
+				<version>2.2.4</version>
+				<scope>provided</scope>
+			</dependency>
 
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>2.4.2</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+    			<groupId>org.apache.spark</groupId>
+    			<artifactId>spark-sql_2.11</artifactId>
+				<version>${spark.version}</version>
+				<scope>provided</scope>
+			</dependency>		
+<!-- <dependency> -->
+<!--     <groupId>com.databricks</groupId> -->
+<!--     <artifactId>spark-avro_2.11</artifactId> -->
+<!--     <version>4.0.0</version> -->
+<!-- </dependency> -->
+
+<!-- <dependency> -->
+<!--     <groupId>org.apache.avro</groupId> -->
+<!--     <artifactId>avro</artifactId> -->
+<!--     <version>1.9.2</version> -->
+<!-- </dependency> -->
 
 		</dependencies>
-
 	</dependencyManagement>
 
 </project>

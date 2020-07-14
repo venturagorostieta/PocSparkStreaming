@@ -12,7 +12,6 @@ public final class DriverConstants {
 	 public static final String SPARK_DEFAULT_PARALELILSM = "spark.default.parallelism";
 	 public static final String SPARK_STREAMING_BATCH_DURATION_SECONDS = "spark.streaming.batch.duration.seconds";
 	
-	 
 	 public static final String KAFKA_BOOTSTRAP_SERVER = "bootstrap.servers";
 	 public static final String KEY_DESERIALIZER = "key.deserializer";
 	 public static final String VALUE_DESERIALIZER = "value.deserializer";

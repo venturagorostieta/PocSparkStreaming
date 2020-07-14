@@ -1,13 +1,12 @@
-package com.poc.spark.model;
+package com.poc.spark.model.dto;
 
 import java.io.Serializable;
 
-public class Customers implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class CustomersDTO  implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private int id;
-	private java.util.Date updatets;
+	private long updatets;
 	private String comments;
 	private String email;
 	private String firstname;
@@ -17,22 +16,23 @@ public class Customers implements Serializable{
 	private int age;
 	
 	
-	public int getAge() {
-		return age;
+	@Override
+	public String toString() {
+		return "CustomersDTO [id=" + id + ", updatets=" + updatets + ", comments=" + comments + ", email=" + email
+				+ ", firstname=" + firstname + ", gender=" + gender + ", lastname=" + lastname + ", rfc=" + rfc
+				+ ", age=" + age + "]";
 	}
-	public void setAge(int age) {
-		this.age = age;
-	}
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public java.util.Date getUpdatets() {
+	public long getUpdatets() {
 		return updatets;
 	}
-	public void setUpdatets(java.util.Date updatets) {
+	public void setUpdatets(long updatets) {
 		this.updatets = updatets;
 	}
 	public String getComments() {
@@ -71,11 +71,12 @@ public class Customers implements Serializable{
 	public void setRfc(String rfc) {
 		this.rfc = rfc;
 	}
-	@Override
-	public String toString() {
-		return "Customers [id=" + id + ", updatets=" + updatets + ", comments=" + comments + ", email=" + email
-				+ ", firstname=" + firstname + ", gender=" + gender + ", lastname=" + lastname + ", rfc=" + rfc
-				+ ", age=" + age + "]";
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
 	}
 	
+
 }

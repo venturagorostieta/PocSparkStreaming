@@ -24,11 +24,9 @@ public class SparkDriverUtils {
 	private String sparkAppName;
 	private String sparkMaxCores;
 	private String sparkExecutorMemory;
-	private String sparDefaultParalelism;
 	private String sparkStreamingBatchDurationSeconds;
 
-	HashMap<String, Object> kafkaParams;
-	
+	HashMap<String, Object> kafkaParams;	
 	
 	public ResourceBundle readProperties(String fileName) {
 
@@ -58,11 +56,9 @@ public class SparkDriverUtils {
 
 		this.setSparkMaxCores(properties.getString(DriverConstants.SPARK_MAX_CORES));
 		this.setSparkExecutorMemory(properties.getString(DriverConstants.SPARK_EXECUTOR_MEMORY));
-		this.setSparDefaultParalelism(properties.getString(DriverConstants.SPARK_DEFAULT_PARALELILSM));
+		//this.setSparDefaultParalelism(properties.getString(DriverConstants.SPARK_DEFAULT_PARALELILSM));
 		this.setSparkStreamingBatchDurationSeconds(
 				properties.getString(DriverConstants.SPARK_STREAMING_BATCH_DURATION_SECONDS));
-
-
 	}
 
 	public HashMap<String, Object> getKafkaProperties() {
@@ -74,7 +70,7 @@ public class SparkDriverUtils {
 		kafkaParams.put(DriverConstants.KAFKA_GROUP_ID, getGroupId());
 		kafkaParams.put(DriverConstants.KAFKA_AUTO_OFFSET_RESET, getAutoOffsetReset());
 		kafkaParams.put(DriverConstants.KAFKA_ENABLE_AUTO_COMMIT, getEnableAutoCommit());
-
+		System.out.println("Offset Reset config : " +getAutoOffsetReset());
 		return kafkaParams;
 	}
 
@@ -84,7 +80,7 @@ public class SparkDriverUtils {
 				+ ", valueDeserializer=" + valueDeserializer + ", groupId=" + groupId + ", autoOffsetReset="
 				+ autoOffsetReset + ", enableAutoCommit=" + enableAutoCommit + ", topics=" + topics + ", sparkMaster="
 				+ sparkMaster + ", sparkAppName=" + sparkAppName + ", sparkMaxCores=" + sparkMaxCores
-				+ ", sparkExecutorMemory=" + sparkExecutorMemory + ", sparDefaultParalelism=" + sparDefaultParalelism
+				+ ", sparkExecutorMemory=" + sparkExecutorMemory 
 				+ ", sparkStreamingBatchDurationSeconds=" + sparkStreamingBatchDurationSeconds + ", kafkaParams="
 				+ kafkaParams + "]";
 	}
@@ -105,13 +101,13 @@ public class SparkDriverUtils {
 		this.sparkExecutorMemory = sparkExecutorMemory;
 	}
 
-	public String getSparDefaultParalelism() {
-		return sparDefaultParalelism;
-	}
-
-	public void setSparDefaultParalelism(String sparDefaultParalelism) {
-		this.sparDefaultParalelism = sparDefaultParalelism;
-	}
+//	public String getSparDefaultParalelism() {
+//		return sparDefaultParalelism;
+//	}
+//
+//	public void setSparDefaultParalelism(String sparDefaultParalelism) {
+//		this.sparDefaultParalelism = sparDefaultParalelism;
+//	}
 
 	public String getSparkStreamingBatchDurationSeconds() {
 		return sparkStreamingBatchDurationSeconds;

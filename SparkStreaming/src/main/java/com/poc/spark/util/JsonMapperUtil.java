@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poc.spark.model.Customers;
+import com.poc.spark.model.Transactions;
 
 @Component
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -88,6 +89,8 @@ public class JsonMapperUtil implements Serializable{
 			"}\r\n" + 
 			"";
 	
+	static String jsonTestCassandra="{\"schema\":{\"type\":\"struct\",\"fields\":[{\"type\":\"int32\",\"optional\":true,\"field\":\"id\"},{\"type\":\"int64\",\"optional\":true,\"name\":\"org.apache.kafka.connect.data.Timestamp\",\"version\":1,\"field\":\"updatets\"},{\"type\":\"string\",\"optional\":true,\"field\":\"comments\"},{\"type\":\"string\",\"optional\":true,\"field\":\"email\"},{\"type\":\"string\",\"optional\":true,\"field\":\"firstname\"},{\"type\":\"string\",\"optional\":true,\"field\":\"gender\"},{\"type\":\"string\",\"optional\":true,\"field\":\"lastname\"},{\"type\":\"string\",\"optional\":true,\"field\":\"rfc\"}],\"optional\":false,\"name\":\"demo.customers\"},\"payload\":{\"id\":3,\"updatets\":1592407272284,\"comments\":\"tercer dato\",\"email\":\"lalala@correo.com\",\"firstname\":\"Casandra\",\"gender\":\"FEMALE\",\"lastname\":\"Base\",\"rfc\":\"AIIA000600K11\"}}";
+	
 	public  String getPayloadJson(String originalJson) {
 		
 		String jsonReduce = "";
@@ -125,6 +128,17 @@ public class JsonMapperUtil implements Serializable{
 
 	}
 	
+	public  Transactions parserJsontoTransaction(String jsonPayLoad)
+			throws JsonParseException, JsonMappingException, IOException {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Transactions txn = mapper.readValue(jsonPayLoad, Transactions.class);
+		return txn;
+
+	}
+	
 	public String cutJsonPayLoad(String originalJson) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonReduce = "";
@@ -143,12 +157,19 @@ public class JsonMapperUtil implements Serializable{
 
 		return cust;
 	}
+	
+	public  Transactions rowToTransaction(String rowJson) throws JsonParseException, JsonMappingException, IOException {
+		final String payload = getPayloadJson(rowJson);
+		Transactions txn = parserJsontoTransaction(payload);
+
+		return txn;
+	}
 
 	public static void main(String args []) {
 		JsonMapperUtil o =  new JsonMapperUtil();
 		
 		try {
-			o.rowToModel(jsonTest);
+			o.rowToModel(jsonTestCassandra);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

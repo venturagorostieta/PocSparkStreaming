@@ -1,0 +1,51 @@
+{  "namespace":"com.poc.spark.model.dto",
+  "type":"record",
+  "name":"TransactionsDTO",
+  "fields":[    {
+      "name":"txnid",
+      "type":"int"
+    
+},
+    {      "name":"txnts",
+      "type":[
+        "long",
+        "null"
+      
+]
+    
+},
+    {      "name":"total",
+      "type":[
+        "double",
+        "null"
+      
+]
+    
+},
+    {      "name":"company",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"currency",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"customerid",
+      "type":[
+        "int",
+        "null"
+      
+]
+    
+}
+      
+]
+}

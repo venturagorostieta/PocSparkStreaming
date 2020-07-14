@@ -7,9 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-//
-//import org.apache.log4j.LogManager;
-//import org.apache.log4j.Logger;
+
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -37,11 +35,9 @@ public class App {
 	public static void main(String[] args) {
 		
 		Logger.getLogger("org.apache").setLevel(Level.WARN);
-		
-		LOGGER.info("Iniciando  Streaming App.... INFO ");
+		LogManager.getLogger("org.apache.kafka").setLevel(Level.WARN);		
 		LOGGER.warn("Iniciando  Streaming App.... WARN ");
-		LOGGER.error("Iniciando  Streaming App.... ERROR ");
-		LOGGER.debug("Iniciando  Streaming App.... DEBUG ");
+		
 		@SuppressWarnings("resource")
 		AnnotationConfigApplicationContext factoria = new AnnotationConfigApplicationContext();
 		factoria.register(DomainConf.class);
@@ -52,25 +48,27 @@ public class App {
 		try {
 			app.setupStreaming();
 		} catch (SparkStreamingException e) {
-
 			LOGGER.error("Error: " + e);
 		}
 
 	}
 
 	public void setupStreaming() throws SparkStreamingException {
-		LOGGER.info("Iniciando Obteniendo configuracion Driver .... ");
+		LOGGER.warn("Iniciando  configuracion Driver .... ");
 
 		JavaStreamingContext jssc = sparkConfigurationBuilder
 				.buildJSC(sparkConfigurationBuilder.buildSparkConfiguration());
-	
-		Map<String, Object> kafkaParams = sparkDriverUtils.getKafkaProperties();
-		Collection<String> topics = Arrays.asList(sparkDriverUtils.getTopics());// 1 o more topics
-
+				
+		jssc.checkpoint("C:\\tmp\\poc\\checkPoint");
+		Map<String, Object> kafkaParams = sparkDriverUtils.getKafkaProperties();		
+		Collection<String> topics = Arrays.asList(sparkDriverUtils.getTopics().trim().split(","));// 1 o more topics		
+		LOGGER.warn("Lista de Topics: " + topics.toString());
+				
 		try {
 			processDStream.startRealProcess(jssc, topics, kafkaParams);
 		} catch (InterruptedException e) {
 			LOGGER.error("Error: InterruptedException " + e);
+			Thread.currentThread().interrupt();
 			throw new SparkStreamingException("InterruptedException : ", e);
 		}
 

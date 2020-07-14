@@ -1,0 +1,75 @@
+{  "namespace":"com.poc.spark.model.dto",
+  "type":"record",
+  "name":"CustomersDTO",
+  "fields":[    {
+      "name":"id",
+      "type":"int"
+    
+},
+    {      "name":"updatets",
+      "type":[
+        "long",
+        "null"
+      
+]
+    
+},
+    {      "name":"comments",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"email",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"firstname",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"gender",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"lastname",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"rfc",
+      "type":[
+        "string",
+        "null"
+      
+]
+    
+},
+    {      "name":"age",
+      "type":[
+        "int",
+        "null"
+      
+]
+    
+}
+  
+]
+}

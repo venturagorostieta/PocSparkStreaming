@@ -13,7 +13,6 @@ public class SparkConfigBeansContext {
 		return new SparkDriverUtils();
 	}
 	
-
 	@Bean(name="sparkConfigurationBuilder")
 	public SparkConfigurationBuilder getSparkConfigurationBuilder(){
 		return new SparkConfigurationBuilder();

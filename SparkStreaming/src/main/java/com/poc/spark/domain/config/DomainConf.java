@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.poc")
 public class DomainConf {
 	
-
 }

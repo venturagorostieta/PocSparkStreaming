@@ -72,7 +72,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>com.streaming.example.DirectStreaming</mainClass>
+									<mainClass>com.poc.spark.domain.App</mainClass>
 								</manifest>
 							</archive>
 							<finalName>JavaStreamingDirect</finalName>
