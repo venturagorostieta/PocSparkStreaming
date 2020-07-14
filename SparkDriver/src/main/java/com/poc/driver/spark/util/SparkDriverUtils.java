@@ -70,7 +70,6 @@ public class SparkDriverUtils {
 		kafkaParams.put(DriverConstants.KAFKA_GROUP_ID, getGroupId());
 		kafkaParams.put(DriverConstants.KAFKA_AUTO_OFFSET_RESET, getAutoOffsetReset());
 		kafkaParams.put(DriverConstants.KAFKA_ENABLE_AUTO_COMMIT, getEnableAutoCommit());
-		System.out.println("Offset Reset config : " +getAutoOffsetReset());
 		return kafkaParams;
 	}
 

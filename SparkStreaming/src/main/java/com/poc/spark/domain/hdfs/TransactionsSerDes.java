@@ -28,6 +28,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.poc.spark.constant.Constants;
 import com.poc.spark.model.Transactions;
 import com.poc.spark.model.dto.TransactionsDTO;
 import com.poc.spark.util.SparkStreamingUtils;
@@ -37,7 +38,7 @@ public class TransactionsSerDes  implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(TransactionsSerDes.class);
-	private static final String FILE_NAME ="avro/Transactions.avsc";
+	private static final String FILE_NAME ="/avro/Transactions.avsc";
 	
 	
 	@Autowired
@@ -47,7 +48,7 @@ public class TransactionsSerDes  implements Serializable  {
 
 		Schema schema = null;
 		try {
-			final URI uri = CustomersSerDes.class.getResource("/avro/Transactions.avsc").toURI();
+			final URI uri = CustomersSerDes.class.getResource(FILE_NAME).toURI();
 			LOGGER.warn(" uri: " + uri.getPath());
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "true");
@@ -58,25 +59,19 @@ public class TransactionsSerDes  implements Serializable  {
 		    	zipfs = FileSystems.getFileSystem(uri);
 		    }
 			
-			//FileSystem zipfs = FileSystems.newFileSystem(uri, env);
 			LOGGER.warn(" zipfs: " + zipfs.getRootDirectories().iterator());
 			Path myFolderPath = Paths.get(uri);
 			
-
 			final byte[] bytes = Files.readAllBytes(myFolderPath);
 			String fileContent = new String(bytes);
-
-			System.out.println(fileContent);
 
 			schema = new Schema.Parser().parse(fileContent);
 
 			LOGGER.warn("  File schema loaded: " + schema.getFullName());
 			return schema;
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		} 
 
 		return schema;
 	}
@@ -91,38 +86,30 @@ public class TransactionsSerDes  implements Serializable  {
 			 String hdfsdIR = sparkStreamingUtils.buildingPathHDFS(dir);
 			 LOGGER.warn("hdfsdIR  Linux : " +hdfsdIR);
 			 
-			 String name = System.getProperty("os.name").toLowerCase();
+			 String name = System.getProperty(Constants.OS_NAME).toLowerCase();
 		      
-
-		        if( name.indexOf("win") >= 0){
+		        if( name.indexOf(Constants.PREFIX_WIN) >= 0){
 		        	 LOGGER.warn(" Windows ... ");
 		        	 sparkStreamingUtils.validateDirectory(dir);
-					 File avroOutput = new File(dir+operation+"transactions_"+ SparkStreamingUtils.getCurrentTime()+ ".avro");
+					 File avroOutput = new File(dir+operation+ Constants.PREFIX_TRANSACTION+ SparkStreamingUtils.getCurrentTime()+ Constants.EXT_AVRO);
 					 
 					 LOGGER.warn("avroOutput: "  + avroOutput.getPath());
 					 transactions2.foreach(f -> 
 							saveRDD(f, avroOutput)
-						);
-					 
-					 //MOVER localsystem to hdfs			
-					 //sparkStreamingUtils.mkdirHDFS(hdfsdIR);
-					 //sparkStreamingUtils.moveLocalSystem2HDFS(avroOutput.getPath(), hdfsdIR);
-		        	
+						);					 				
 		        }else {
 					 sparkStreamingUtils.validateDirectory(hdfsdIR);
-					 File avroOutput = new File(hdfsdIR+operation+"transactions_"+ SparkStreamingUtils.getCurrentTime()+ ".avro");
+					 File avroOutput = new File(hdfsdIR+operation+Constants.PREFIX_TRANSACTION+ SparkStreamingUtils.getCurrentTime()+ Constants.EXT_AVRO);
 					 
 					 LOGGER.warn("avroOutput: "  + avroOutput.getPath());
 					 transactions2.foreach(f -> 
 							saveRDD(f, avroOutput)
 						);
 					 
-					 //MOVER localsystem to hdfs			
+					 //move localsystem to hdfs			
 					 sparkStreamingUtils.mkdirHDFS(hdfsdIR);
-					 sparkStreamingUtils.moveLocalSystem2HDFS(avroOutput.getPath(), hdfsdIR);
-		        	
-		        }
-			
+					 sparkStreamingUtils.moveLocalSystem2HDFS(avroOutput.getPath(), hdfsdIR);		        	
+		        }			
 		 }			
 	}	
 	
@@ -171,16 +158,15 @@ public class TransactionsSerDes  implements Serializable  {
 
 	private static GenericRecord fillGenericRecord(GenericRecord generic, TransactionsDTO txnDTO) {
 		
-		generic.put("txnid", txnDTO.getTxnid());
-		generic.put("txnts", txnDTO.getTxnts());
-		generic.put("customerid", txnDTO.getCustomerid());
-		generic.put("company", txnDTO.getCompany());
-		generic.put("currency", txnDTO.getCurrency());
-		generic.put("total", txnDTO.getTotal());
+		generic.put(Constants.TRANSACTION_TXNID , txnDTO.getTxnid());
+		generic.put(Constants.TRANSACTION_TXNTS, txnDTO.getTxnts());
+		generic.put(Constants.TRANSACTION_CUSTOMERID, txnDTO.getCustomerid());
+		generic.put(Constants.TRANSACTION_COMPANY, txnDTO.getCompany());
+		generic.put(Constants.TRANSACTION_CURRENCY, txnDTO.getCurrency());
+		generic.put(Constants.TRANSACTION_TOTAL, txnDTO.getTotal());
 		
 		LOGGER.warn("fillGenericRecord Retornando GenericRecord");
 		return generic;
 	}
-	
 	
 }

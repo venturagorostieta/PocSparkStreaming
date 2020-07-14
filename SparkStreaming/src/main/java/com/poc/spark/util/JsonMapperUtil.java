@@ -114,11 +114,10 @@ public class JsonMapperUtil implements Serializable{
 			e.printStackTrace();
 		}
 		return jsonReduce;
-
 	}
 
 	public  Customers parserJsontoModel(String jsonPayLoad)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws  IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -129,7 +128,7 @@ public class JsonMapperUtil implements Serializable{
 	}
 	
 	public  Transactions parserJsontoTransaction(String jsonPayLoad)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -139,7 +138,7 @@ public class JsonMapperUtil implements Serializable{
 
 	}
 	
-	public String cutJsonPayLoad(String originalJson) throws JsonParseException, JsonMappingException, IOException {
+	public String cutJsonPayLoad(String originalJson) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonReduce = "";
 
@@ -151,18 +150,14 @@ public class JsonMapperUtil implements Serializable{
 		return jsonReduce;
 	}
 
-	public  Customers rowToModel(String rowJson) throws JsonParseException, JsonMappingException, IOException {
+	public  Customers rowToModel(String rowJson) throws IOException {
 		final String payload = getPayloadJson(rowJson);
-		Customers cust = parserJsontoModel(payload);
-
-		return cust;
+		return parserJsontoModel(payload);
 	}
 	
-	public  Transactions rowToTransaction(String rowJson) throws JsonParseException, JsonMappingException, IOException {
+	public  Transactions rowToTransaction(String rowJson) throws IOException {
 		final String payload = getPayloadJson(rowJson);
-		Transactions txn = parserJsontoTransaction(payload);
-
-		return txn;
+		return parserJsontoTransaction(payload);		
 	}
 
 	public static void main(String args []) {
@@ -174,5 +169,4 @@ public class JsonMapperUtil implements Serializable{
 			e.printStackTrace();
 		}
 	}
-
 }

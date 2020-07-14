@@ -30,7 +30,7 @@ public class ProcessDStream  implements Serializable {
 	private TransactionsRDD transactionsRDD;
 
 	public void startRealProcess(JavaStreamingContext jssc, Collection<String> topics, Map<String, Object> kafkaParams)
-			throws InterruptedException {
+			 {
 
 		JavaInputDStream<ConsumerRecord<String, String>> stream = KafkaUtils.createDirectStream(jssc,
 				LocationStrategies.PreferConsistent(),
@@ -45,10 +45,7 @@ public class ProcessDStream  implements Serializable {
 		transactionsRDD.startTransactionsProccesor(transactions);		
 		customersRDD.startCustomersProccesor(customers);
 
-		transactions.print();
-		jssc.start();
-		//remove for graceful shutdown
-		jssc.awaitTermination();
+		transactions.print();		
 
 	}
 

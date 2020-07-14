@@ -33,6 +33,29 @@ public final class Constants {
 	public static final String BASE_DIR_OUTPUT_HDFS ="/tmp/poc/";
 	public static final String WINDOWS_SEPARATOR ="\\";
 	public static final char UNIX_SEPARATOR = '/';
-
+	public static final String  WINDOWS_CHECKPOINT = "C:\\tmp\\poc\\checkPoint";
+	public static final String  LINUX_CHECKPOINT = "/tmp/poc/checkPoint";
+	public static final String  OS_NAME ="os.name";
+	public static final String  PREFIX_CUSTOMER = "customers_";
+	public static final String  EXT_AVRO = ".avro";
+	public static final String PREFIX_WIN="win";
+	
+	public static final String  CUSTOMER_ID = "id";
+	public static final String  CUSTOMER_FIRSTNAME = "firstname";
+	public static final String  CUSTOMER_LASTNAME ="lastname";
+	public static final String  CUSTOMER_COMMENTS = "comments";
+	public static final String  CUSTOMER_EMAIL = "email";
+	public static final String  CUSTOMER_GENDER="gender";
+	public static final String  CUSTOMER_RFC="rfc";
+	public static final String  CUSTOMER_AGE = "age";
+	public static final String  CUSTOMER_UPDATETS="updatets";
+	
+	public static final String  PREFIX_TRANSACTION = "transactions_";
+	public static final String  TRANSACTION_TXNID = "txnid";
+	public static final String  TRANSACTION_TXNTS = "txnts";
+	public static final String  TRANSACTION_CUSTOMERID = "customerid";
+	public static final String  TRANSACTION_COMPANY = "company";
+	public static final String  TRANSACTION_CURRENCY = "currency";
+	public static final String  TRANSACTION_TOTAL = "total";
 
 }

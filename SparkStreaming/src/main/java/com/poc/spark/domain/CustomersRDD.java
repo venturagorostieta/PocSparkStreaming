@@ -6,12 +6,9 @@ import java.io.Serializable;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.streaming.api.java.JavaDStream;
-import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.poc.spark.domain.hdfs.CustomersSerDes;
 import com.poc.spark.model.Customers;
 import com.poc.spark.util.JsonMapperUtil;
@@ -49,7 +46,7 @@ public class CustomersRDD implements Serializable {
 		}));
 	}
 
-	private void filteGenderCustomers(String row) throws JsonParseException, JsonMappingException, IOException {
+	private void filteGenderCustomers(String row) throws  IOException {
 
 		Customers cust = jsonMapperUtil.rowToModel(row);
 
@@ -62,7 +59,7 @@ public class CustomersRDD implements Serializable {
 		}
 	}
 
-	private void filterSpecificRFCCustomers(String row) throws JsonParseException, JsonMappingException, IOException {
+	private void filterSpecificRFCCustomers(String row) throws IOException {
 		Customers cust = jsonMapperUtil.rowToModel(row);
 		if (cust.getRfc().equals("AAAA0101015L6")) {
 			LOGGER.warn("Es de un cliente perfilado :" +cust.toString());

@@ -31,7 +31,7 @@ public class SparkConfigurationBuilder {
 				.set("spark.yarn.maxAppAttempts", "1")
 				.set("spark.yarn.am.attemptFailuresValidityInterval", "2h")
 				.set("spark.streaming.receiver.writeAheadLog.enable", "true")
-		
+				.set("spark.streaming.stopGracefullyOnShutdown" , "true")
 				 			
 				.set(DriverConstants.SPARK_MAX_CORES, sparkDriverUtils.getSparkMaxCores())
 				.set(DriverConstants.SPARK_EXECUTOR_MEMORY, sparkDriverUtils.getSparkExecutorMemory());	
@@ -39,8 +39,7 @@ public class SparkConfigurationBuilder {
 
 	public JavaStreamingContext buildJSC(SparkConf sparkConf) {
 
-		Long seconds = Long.valueOf(sparkDriverUtils.getSparkStreamingBatchDurationSeconds());
-		
+		Long seconds = Long.valueOf(sparkDriverUtils.getSparkStreamingBatchDurationSeconds());		
 		return new JavaStreamingContext(buildSparkConfiguration(), Durations.seconds(seconds));
 	}
 	
