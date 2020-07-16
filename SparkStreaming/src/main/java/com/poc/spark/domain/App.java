@@ -60,21 +60,20 @@ public class App {
 	public void setupStreaming() throws InterruptedException  {
 		LOGGER.warn("Iniciando  configuracion Driver .... ");
 
-		Function0<JavaStreamingContext> createContextFunc = () -> createContext(Constants.WINDOWS_CHECKPOINT);
-		JavaStreamingContext ssc = JavaStreamingContext.getOrCreate(Constants.WINDOWS_CHECKPOINT, createContextFunc);
+		Function0<JavaStreamingContext> createContextFunc = () -> createContext(Constants.LINUX_CHECKPOINT);
+		JavaStreamingContext ssc = JavaStreamingContext.getOrCreate(Constants.LINUX_CHECKPOINT, createContextFunc);
 
 		ssc.start();
 		ssc.awaitTermination();
 	}
 
 	private JavaStreamingContext createContext(String checkpointDirectory) throws SparkStreamingException {
-
-		Long seconds = Long.valueOf(sparkDriverUtils.getSparkStreamingBatchDurationSeconds());
+		
 		
 		LOGGER.warn("Creating new context");
 
 		SparkConf sparkConf = sparkConfigurationBuilder.buildSparkConfiguration();
-		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(seconds));
+		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(10));
 		ssc.checkpoint(checkpointDirectory);
 
 		Map<String, Object> kafkaParams = sparkDriverUtils.getKafkaProperties();

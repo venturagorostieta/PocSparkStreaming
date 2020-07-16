@@ -34,7 +34,7 @@ public final class Constants {
 	public static final String WINDOWS_SEPARATOR ="\\";
 	public static final char UNIX_SEPARATOR = '/';
 	public static final String  WINDOWS_CHECKPOINT = "C:\\tmp\\poc\\checkPoint";
-	public static final String  LINUX_CHECKPOINT = "/tmp/poc/checkPoint";
+	public static final String  LINUX_CHECKPOINT = "/tmp/poc/checkPoint/yarn";
 	public static final String  OS_NAME ="os.name";
 	public static final String  PREFIX_CUSTOMER = "customers_";
 	public static final String  EXT_AVRO = ".avro";

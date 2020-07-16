@@ -18,8 +18,8 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring.version>4.3.27.RELEASE</spring.version>
- 		<spark.version>2.4.5</spark.version> 
-<!-- 		<spark.version>2.3.1</spark.version> -->
+<!--  		<spark.version>2.4.5</spark.version>  -->
+ 		<spark.version>2.3.1</spark.version> 
 	</properties>
 
 	<modules>
@@ -59,8 +59,10 @@
 				<groupId>org.apache.spark</groupId>
 				<artifactId>spark-core_2.11</artifactId>
 				<version>${spark.version}</version>
-<!-- 				<scope>provided</scope> -->
+				<scope>provided</scope>
 			</dependency>
+			
+
 
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -85,7 +87,7 @@
 				<groupId>org.apache.spark</groupId>
 				<artifactId>spark-streaming_2.11</artifactId>
 				<version>${spark.version}</version>
-<!-- 				<scope>provided</scope> -->
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.spark</groupId>
