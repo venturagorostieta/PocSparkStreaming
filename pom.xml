@@ -17,7 +17,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring.version>4.3.27.RELEASE</spring.version>
+		<spring.version>5.2.23.RELEASE</spring.version>
 <!--  		<spark.version>2.4.5</spark.version>  -->
  		<spark.version>2.3.1</spark.version> 
 	</properties>
